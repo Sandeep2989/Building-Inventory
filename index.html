@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assigment Webpage</title>
+    
+    <style>
+         body {
+            background: linear-gradient(to bottom, #FF6B6B, #FFC3A0);
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.25.0/build/vega.min.js"
+        integrity="sha256-na2uPt+tUPV7GRVpc+/ezQj+lGwljIvOJifkmg8f3as=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.15.0/build/vega-lite.min.js"
+        integrity="sha256-WLAn82Ut4GptY/IJf4K/1i+R8ibAkVLFhBVkOovqCK8=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.22.2/build/vega-embed.min.js"
+        integrity="sha256-GfFZ6w7V/y3Ws9eHVsOXZ/F1ZFroThVZraOAx3HAt6s=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <style>
+        h1 {
+          font-family: "Arial";
+          text-align: center;
+        }
+      </style>
+    <h1 style="color: palegreen;">
+        Data Visualisation <strong>Assignment - 3 </strong>
+        
+    </h1>
+    <div id="viz"></div>
+    <script>
+        var vlSpec =       {
+    "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+    "data": {"url": "https://raw.githubusercontent.com/Sandeep2989/Building-Inventory/main/building_inventory.json"},
+
+"hconcat" : [ {
+     "transform": [
+    {
+      "aggregate": [{"op": "sum", "field": "Square Footage", "as": "TotalSquareFootage"}],
+      "groupby": ["Congress Dist"]
+    }
+  ],
+  "title": "Total square footage as a function of congressional district",
+  "mark": {
+    "type": "bar",
+    "color" :"burlywood"
+  },
+  "encoding": {
+    "x": {
+      "field": "Congress Dist",
+      "type": "ordinal",
+      "title": "Congressional District",
+      "axis": {
+        "labelAngle": 0
+      }
+    },
+    "y": {
+      "field": "TotalSquareFootage",
+      "type": "quantitative",
+      "title": "Total Square Footage"
+    }
+  }}, {
+
+    "transform": [
+        {
+            "filter": "(datum['Year Acquired'] !== 0) && (datum['Year Constructed'] !== 0)"
+        }
+    ],
+    "mark": {"type" :"point",  "color" : "purple"},
+     "title": "Year Acquired vs Year Constructed",
+       "encoding": {
+        "x": {"field": "Year Acquired", "type": "quantitative"},
+        "y": { "field": "Year Constructed","type": "quantitative"}
+        
+        }
+        }]
+  
+  }
+
+
+
+;
+        vegaEmbed("#viz", vlSpec);
+    </script>
+</body>
+
+</html>
